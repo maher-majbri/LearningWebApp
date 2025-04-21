@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Trainer>
+@{
+    ViewData["Title"] = "Trainers";
+}
+
+<div class="container">
+
+	<h3>Show all trainers</h3>
+
+
+	<div class="row">
+		@foreach (var trainer in Model)
+		{
+			<div class="col-md-4 mb-4">
+				<div class="card h-100">
+					<div class="card-body">
+						<h5 class="card-title">@trainer.Name</h5>
+						<p class="card-text">@trainer.Info</p>
+						<p class="card-text">
+							<strong>Courses:</strong>
+							@if (trainer.Courses != null && trainer.Courses.Any())
+							{
+								<br />
+								@foreach (var course in trainer.Courses)
+								{
+									<span class="badge bg-primary me-1">@course.Title</span>
+								}
+							}
+							else
+							{
+								<br />
+								<span>No courses assigned.</span>
+							}
+						</p>
+					 <a asp-action="Details" asp-route-id="@trainer.Id" class="btn btn-primary">Details</a>
+                </div>
+				</div>
+			</div>
+		}
+	</div>
+</div>

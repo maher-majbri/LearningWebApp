@@ -1,0 +1,61 @@
+﻿@model Trainer
+
+@{
+    ViewData["Title"] = "Trainer Details";
+}
+
+<div class="container">
+
+
+<h1>Trainer Details</h1>
+
+<div>
+    <h4>Trainer</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Info)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Info)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <h4>Available Courses</h4>
+    <table class="table">
+        <tbody>
+            @if (Model.Courses != null && Model.Courses.Any())
+            {
+                @foreach (var course in Model.Courses)
+                {
+                    <tr>
+                        <td>@course.Title</td>
+                        <td>@course.Description</td>
+						<td> <span class="badge bg-danger me-1">@course.Price </span></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2">No courses available.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+ 
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+
+</div>

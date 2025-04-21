@@ -1,0 +1,93 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="~/assets/css/admin.css" />
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div id="sidebar">
+            <div class="sidebar-header">
+                <h1>Admin Panel</h1>
+                <p>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <text>Welcome, @User.Identity.Name</text>
+                    }
+                </p>
+            </div>
+            <nav class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Admin" asp-controller="Course" asp-action="Index"><i class="fas fa-book"></i> <span>Courses</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Admin" asp-controller="Trainer" asp-action="Index"><i class="fas fa-users"></i> <span>Trainers</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-graduation-cap"></i> <span>Students</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-cog"></i> <span>Settings</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link logout-button" asp-area="Admin" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+                </li>
+            </nav>
+        </div>
+        <div id="main-content" class="expanded">
+            <div class="top-navbar">
+                <button id="sidebar-toggle" class="navbar-toggler">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>@ViewData["Title"]</h1>
+            </div>
+            @RenderBody()
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var sidebar = $('#sidebar');
+            var mainContent = $('#main-content');
+            var sidebarToggle = $('#sidebar-toggle');
+            var isSidebarCollapsed = false;
+
+            sidebarToggle.on('click', function () {
+                sidebar.toggleClass('collapsed');
+                mainContent.toggleClass('expanded').toggleClass('collapsed');
+                isSidebarCollapsed = !isSidebarCollapsed;
+            });
+
+            // Responsive: Toggle sidebar on small screens
+            if ($(window).width() <= 768) {
+                sidebarToggle.on('click', function () {
+                    sidebar.toggleClass('show');
+                });
+
+                // Close sidebar when clicking outside
+                $(document).on('click', function (event) {
+                    if (!$(event.target).closest('#sidebar').length && !$(event.target).closest(sidebarToggle).length && sidebar.hasClass('show')) {
+                        sidebar.removeClass('show');
+                    }
+                });
+            }
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
